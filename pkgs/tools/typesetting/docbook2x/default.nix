@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://sourceforge.net/projects/docbook2x/files/docbook2x/0.8.8/docbook2X-0.8.8.tar.gz";
-    sha256 = "0kfkcmiygl76fdd6j5n710la6abr47s2gqfdp4lm7rm55x0rzvcj";
+    sha256 = "0ifwzk99rzjws0ixzimbvs83x6cxqk1xzmg84wa1p7bs6rypaxs0";
   };
 
   # This patch makes sure that `docbook2texi --to-stdout' actually
