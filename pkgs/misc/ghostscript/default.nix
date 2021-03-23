@@ -18,8 +18,8 @@ let
         sha256 = "00f4l10xd826kak51wsmaz69szzm2wp8a41jasr4jblz25bg7dhf";
       })
       (fetchurl {
-        url = "https://ftp.gnu.org/gnu/ghostscript/gnu-gs-fonts-other-6.0.tar.gz";
-        sha256 = "11iy72k7747m7m278rzwa7xw7dabpsrl9y1x4xbbwpm2hgwsagkm";
+        url = "mirror://gnu/ghostscript/gnu-gs-fonts-other-6.0.tar.gz";
+        sha256 = "1cxaah3r52qq152bbkiyj2f7dx1rf38vsihlhjmrvzlr8v6cqil1";
       })
       # ... add other fonts here
     ];
