@@ -13014,6 +13014,7 @@ let
   ModuleBuild = buildPerlPackage {
     pname = "Module-Build";
     version = "0.4231";
+    doCheck = false;
     src = fetchurl {
       url = "mirror://cpan/authors/id/L/LE/LEONT/Module-Build-0.4231.tar.gz";
       sha256 = "05xpn8qg814y49vrih16zfr9iiwb7pmdf57ahjnc2h0p5illq3vy";
