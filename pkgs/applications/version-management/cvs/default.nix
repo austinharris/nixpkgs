@@ -5,7 +5,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "http://download-mirror.savannah.gnu.org/releases/cvs/source/feature/1.12.13/cvs-1.12.13.tar.gz";
-    sha256 = "0pjir8cwn0087mxszzbsi1gyfc6373vif96cw4q3m1x6p49kd1bq";
+    sha256 = "1p564lvg4ka7crmi6vrpsmpiyhjxq85cfpkqpz7v1n5giw2dj302";
   };
 
   patches = [
