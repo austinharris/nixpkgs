@@ -57,7 +57,7 @@ stdenv.mkDerivation rec {
   buildInputs =
     [ zlib expat openssl
       libjpeg libpng libtiff freetype fontconfig libpaper jbig2dec
-      libiconv ijs lcms2
+      libiconv lcms2
     ]
     ++ lib.optional x11Support xlibsWrapper
     ++ lib.optional cupsSupport cups
