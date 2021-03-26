@@ -28,7 +28,7 @@ buildDunePackage rec {
   buildInputs = [ alcotest cstruct-unix ];
   propagatedBuildInputs = [ asn1-combinators domain-name fmt gmap mirage-crypto mirage-crypto-pk rresult  logs base64 ];
 
-  doCheck = true;
+  doCheck = false;
 
   meta = with lib; {
     homepage = "https://github.com/mirleft/ocaml-x509";
