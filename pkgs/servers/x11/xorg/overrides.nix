@@ -470,7 +470,7 @@ self: super:
     # 2: I think pkg-config/ is supposed to be in /lib/
     postInstall = ''
       ln -s share "$out/etc"
-      mkdir -p "$out/lib" && ln -s ../share/pkgconfig "$out/lib/"
+      #mkdir -p "$out/lib" && ln -s ../share/pkgconfig "$out/lib/"
     '';
   });
 
