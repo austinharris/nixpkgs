@@ -50,7 +50,7 @@ stdenv.mkDerivation rec {
 
   enableParallelBuilding = true;
 
-  nativeBuildInputs = [ pkg-config perl brotli ];
+  nativeBuildInputs = [ pkg-config perl ];
 
   # Zlib and OpenSSL must be propagated because `libcurl.la' contains
   # "-lz -lssl", which aren't necessary direct build inputs of
@@ -89,6 +89,7 @@ stdenv.mkDerivation rec {
       ( if ldapSupport then "--enable-ldaps" else "--disable-ldaps" )
       ( if idnSupport then "--with-libidn=${libidn.dev}" else "--without-libidn" )
       ( if brotliSupport then "--with-brotli" else "--without-brotli" )
+      ( if isStatic then "--enable-static --disable-shared" )
     ]
     ++ lib.optional wolfsslSupport "--with-wolfssl=${wolfssl.dev}"
     ++ lib.optional c-aresSupport "--enable-ares=${c-ares}"
