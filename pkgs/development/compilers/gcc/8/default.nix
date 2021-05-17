@@ -3,6 +3,7 @@
 , langObjC ? stdenv.targetPlatform.isDarwin
 , langObjCpp ? stdenv.targetPlatform.isDarwin
 , langGo ? false
+, reproducibleBuild ? true
 , profiledCompiler ? false
 , langJit ? false
 , staticCompiler ? false
@@ -45,6 +46,10 @@ assert langGo -> langCC;
 # threadsCross is just for MinGW
 assert threadsCross != null -> stdenv.targetPlatform.isWindows;
 
+# profiledCompiler builds inject non-determinism in one of the compilation stages.
+# If turned on, we can't provide reproducible builds anymore
+assert reproducibleBuild -> profiledCompiler == false;
+
 with lib;
 with builtins;
 
@@ -55,6 +60,7 @@ let majorVersion = "8";
 
     patches =
          optional (targetPlatform != hostPlatform) ../libstdc++-target.patch
+      ++ optional targetPlatform.isNetBSD ../libstdc++-netbsd-ctypes.patch
       ++ optional noSysDirs ../no-sys-dirs.patch
       /* ++ optional (hostPlatform != buildPlatform) (fetchpatch { # XXX: Refine when this should be applied
         url = "https://git.busybox.net/buildroot/plain/package/gcc/${version}/0900-remove-selftests.patch?id=11271540bfe6adafbc133caf6b5b902a816f5f02";
@@ -182,8 +188,7 @@ stdenv.mkDerivation ({
 
   dontDisableStatic = true;
 
-  # TODO(@Ericson2314): Always pass "--target" and always prefix.
-  configurePlatforms = [ "build" "host" ] ++ lib.optional (targetPlatform != hostPlatform) "target";
+  configurePlatforms = [ "build" "host" "target" ];
 
   configureFlags = import ../common/configure-flags.nix {
     inherit

@@ -4,12 +4,14 @@
 , gtkVersion ? "3"
 , gtk2, libayatana-indicator-gtk2, libdbusmenu-gtk2
 , gtk3, libayatana-indicator-gtk3, libdbusmenu-gtk3
-, dbus-glib, python2, python2Packages
+, dbus-glib,
 }:
 
 stdenv.mkDerivation rec {
   pname = "libayatana-appindicator-gtk${gtkVersion}";
   version = "0.5.5";
+
+  outputs = [ "out" "dev" ];
 
   src = fetchFromGitHub {
     owner = "AyatanaIndicators";
@@ -18,7 +20,7 @@ stdenv.mkDerivation rec {
     sha256 = "1sba0w455rdkadkhxrx4fr63m0d9blsbb1q1hcshxw1k1z2nh1gk";
   };
 
-  nativeBuildInputs = [ pkg-config autoreconfHook gtk-doc gobject-introspection python2 python2Packages.pygtk dbus-glib ];
+  nativeBuildInputs = [ pkg-config autoreconfHook gtk-doc gobject-introspection dbus-glib ];
 
   buildInputs =
     lib.lists.optional (gtkVersion == "2") libayatana-indicator-gtk2

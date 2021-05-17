@@ -20,6 +20,11 @@ buildPythonPackage rec {
     sha256 = "sha256-J5c91KkEpPE7JjoZyGbBO5KjntHJZGVfAl8/jT11uAQ=";
   };
 
+  postPatch = ''
+    # Use latest idna
+    substituteInPlace setup.py --replace ",<3" ""
+  '';
+
   propagatedBuildInputs = [
     certifi
     chardet
@@ -32,6 +37,9 @@ buildPythonPackage rec {
     pytest-xdist
     pytestCheckHook
   ];
+
+  # AttributeError: 'KeywordMapping' object has no attribute 'get'
+  doCheck = !isPy27;
 
   disabledTests = [
     # Disable tests that require network access and use httpbin
@@ -56,7 +64,5 @@ buildPythonPackage rec {
     homepage = "http://docs.python-requests.org/en/latest/";
     license = licenses.asl20;
     maintainers = with maintainers; [ fab ];
-    # AttributeError: 'KeywordMapping' object has no attribute 'get'
-    broken = isPy27;
   };
 }

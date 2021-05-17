@@ -61,7 +61,16 @@ let
 
 
   # Download and unpack the bootstrap tools (coreutils, GCC, Glibc, ...).
-  bootstrapTools = import (if localSystem.libc == "musl" then ./bootstrap-tools-musl else ./bootstrap-tools) { inherit system bootstrapFiles; };
+  bootstrapTools = import (if localSystem.libc == "musl" then ./bootstrap-tools-musl else ./bootstrap-tools) {
+    inherit system bootstrapFiles;
+    extraAttrs = lib.optionalAttrs
+      (config.contentAddressedByDefault or false)
+      {
+        __contentAddressed = true;
+        outputHashAlgo = "sha256";
+        outputHashMode = "recursive";
+      };
+  };
 
   getLibc = stage: stage.${localSystem.libc};
 
@@ -274,6 +283,10 @@ in
       isl_0_20 = super.isl_0_20.override { stdenv = self.makeStaticLibraries self.stdenv; };
       gcc-unwrapped = super.gcc-unwrapped.override {
         isl = isl_0_20;
+        # Use a deterministically built compiler
+        # see https://github.com/NixOS/nixpkgs/issues/108475 for context
+        reproducibleBuild = true;
+        profiledCompiler = false;
       };
     };
     extraNativeBuildInputs = [ prevStage.patchelf ] ++

@@ -53,6 +53,8 @@ in (kdeFrameworks // plasma5 // plasma5.thirdParty // kdeApplications // qt5 // 
 
   alkimia = callPackage ../development/libraries/alkimia { };
 
+  applet-window-buttons = callPackage ../development/libraries/applet-window-buttons { };
+
   appstream-qt = callPackage ../development/libraries/appstream/qt.nix { };
 
   dxflib = callPackage ../development/libraries/dxflib {};
@@ -114,6 +116,14 @@ in (kdeFrameworks // plasma5 // plasma5.thirdParty // kdeApplications // qt5 // 
   libqtav = callPackage ../development/libraries/libqtav { };
 
   kpmcore = callPackage ../development/libraries/kpmcore { };
+
+  mapbox-gl-native = libsForQt5.callPackage ../development/libraries/mapbox-gl-native { };
+
+  mapbox-gl-qml = libsForQt5.callPackage ../development/libraries/mapbox-gl-qml { };
+
+  mauikit = callPackage ../development/libraries/mauikit { };
+
+  mauikit-filebrowsing = callPackage ../development/libraries/mauikit-filebrowsing { };
 
   mlt = callPackage ../development/libraries/mlt/qt-5.nix { };
 

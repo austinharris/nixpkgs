@@ -16,15 +16,16 @@
 , gettext
 , coreutils
 , ncurses
+, caf
 }:
 
 stdenv.mkDerivation rec {
   pname = "zeek";
-  version = "4.0.0";
+  version = "4.0.1";
 
   src = fetchurl {
     url = "https://download.zeek.org/zeek-${version}.tar.gz";
-    sha256 = "0m7zy5k2595vf5xr2r4m75rfsdddigrv2hilm1c3zaif4srxmvpj";
+    sha256 = "0ficl4i012gfv4mdbdclgvi6gyq338gw9gb6k58k1drw8c7qk6k5";
   };
 
   nativeBuildInputs = [ cmake flex bison file ];
@@ -34,6 +35,7 @@ stdenv.mkDerivation rec {
   outputs = [ "out" "lib" "py" ];
 
   cmakeFlags = [
+    "-DCAF_ROOT=${caf}"
     "-DZEEK_PYTHON_DIR=${placeholder "py"}/lib/${python3.libPrefix}/site-packages"
     "-DENABLE_PERFTOOLS=true"
     "-DINSTALL_AUX_TOOLS=true"

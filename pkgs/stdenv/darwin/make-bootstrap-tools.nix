@@ -18,7 +18,7 @@ in rec {
   bzip2_ = bzip2.override (args: { linkStatic = true; });
 
   # Avoid messing with libkrb5 and libnghttp2.
-  curl_ = curl.override (args: { gssSupport = false; http2Support = false; });
+  curl_ = curlMinimal.override (args: { gssSupport = false; http2Support = false; });
 
   build = stdenv.mkDerivation {
     name = "stdenv-bootstrap-tools";
@@ -77,7 +77,7 @@ in rec {
       # Copy what we need of clang
       cp -d ${llvmPackages.clang-unwrapped}/bin/clang* $out/bin
 
-      cp -rL ${llvmPackages.clang-unwrapped}/lib/clang $out/lib
+      cp -rL ${llvmPackages.clang-unwrapped.lib}/lib/clang $out/lib
 
       cp -d ${llvmPackages.libcxx}/lib/libc++*.dylib $out/lib
       cp -d ${llvmPackages.libcxxabi}/lib/libc++abi*.dylib $out/lib
@@ -85,7 +85,7 @@ in rec {
       cp -d ${libffi}/lib/libffi*.dylib $out/lib
 
       mkdir $out/include
-      cp -rd ${llvmPackages.libcxx}/include/c++     $out/include
+      cp -rd ${llvmPackages.libcxx.dev}/include/c++     $out/include
 
       cp -d ${darwin.ICU}/lib/libicu*.dylib $out/lib
       cp -d ${zlib.out}/lib/libz.*       $out/lib

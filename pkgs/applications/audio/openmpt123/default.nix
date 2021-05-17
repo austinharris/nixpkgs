@@ -2,14 +2,14 @@
 , usePulseAudio ? config.pulseaudio or false, libpulseaudio }:
 
 let
-  version = "0.5.5";
+  version = "0.5.6";
 in stdenv.mkDerivation {
   pname = "openmpt123";
   inherit version;
 
   src = fetchurl {
     url = "https://lib.openmpt.org/files/libopenmpt/src/libopenmpt-${version}+release.autotools.tar.gz";
-    sha256 = "sha256-8eAUg+vxpoDZ7AMMmvIPXypawPHgZCwYvVWTz6qc62s=";
+    sha256 = "sha256-F96ngrM0wUb0rNlIx8Mf/dKvyJnrNH6+Ab4WBup59Lg=";
   };
 
   enableParallelBuilding = true;
@@ -25,7 +25,7 @@ in stdenv.mkDerivation {
     description = "A cross-platform command-line based module file player";
     homepage = "https://lib.openmpt.org/libopenmpt/";
     license = licenses.bsd3;
-    maintainers = with maintainers; [ gnidorah ];
+    maintainers = with maintainers; [ ];
     platforms = platforms.linux;
   };
 }

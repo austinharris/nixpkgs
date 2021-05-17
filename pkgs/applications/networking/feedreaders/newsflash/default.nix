@@ -20,19 +20,19 @@
 
 stdenv.mkDerivation rec {
   pname = "newsflash";
-  version = "1.3.0";
+  version = "1.4.1";
 
   src = fetchFromGitLab {
     owner = "news-flash";
     repo = "news_flash_gtk";
     rev = version;
-    hash = "sha256-Vu8PXdnayrglAFVfO+WZTzk4Qrb/3uqzQIwClnRHto8=";
+    hash = "sha256-pskmvztKOwutXRHVnW5u68/0DAuV9Gb+Ovp2JbXiMYo=";
   };
 
   cargoDeps = rustPlatform.fetchCargoTarball {
     inherit src;
     name = "${pname}-${version}";
-    hash = "sha256-dWumQi/Bk7w2C8zVVExxguWchZU+K2qTC02otsiK9jA=";
+    hash = "sha256-qq8cZplt5YWUwsXUShMDhQm3RGH2kCEBk64x6bOa50E=";
   };
 
   patches = [

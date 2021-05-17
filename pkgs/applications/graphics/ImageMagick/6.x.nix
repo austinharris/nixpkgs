@@ -1,7 +1,7 @@
 { lib, stdenv, fetchFromGitHub, pkg-config, libtool
 , bzip2, zlib, libX11, libXext, libXt, fontconfig, freetype, ghostscript, libjpeg, djvulibre
 , lcms2, openexr, libpng, librsvg, libtiff, libxml2, openjpeg, libwebp, fftw, libheif, libde265
-, ApplicationServices
+, ApplicationServices, Foundation
 }:
 
 let
@@ -16,13 +16,13 @@ in
 
 stdenv.mkDerivation rec {
   pname = "imagemagick";
-  version = "6.9.12-1";
+  version = "6.9.12-12";
 
   src = fetchFromGitHub {
     owner = "ImageMagick";
     repo = "ImageMagick6";
     rev = version;
-    sha256 = "1s1zr0fqnm9jl1ni07if2klvf2lfg26dgxdbspksq5xdhsxxn841";
+    sha256 = "sha256-yqMYuayQjPlTqi3+CtwP5CdsAGud/fHR0I2LwUPIq00=";
   };
 
   outputs = [ "out" "dev" "doc" ]; # bin/ isn't really big
@@ -50,7 +50,8 @@ stdenv.mkDerivation rec {
     ]
     ++ lib.optionals (!stdenv.hostPlatform.isMinGW)
       [ openexr librsvg openjpeg ]
-    ++ lib.optional stdenv.isDarwin ApplicationServices;
+    ++ lib.optionals stdenv.isDarwin
+      [ ApplicationServices Foundation ];
 
   propagatedBuildInputs =
     [ bzip2 freetype libjpeg lcms2 fftw ]
@@ -81,6 +82,7 @@ stdenv.mkDerivation rec {
     changelog = "https://legacy.imagemagick.org/script/changelog.php";
     description = "A software suite to create, edit, compose, or convert bitmap images";
     platforms = platforms.linux ++ platforms.darwin;
+    maintainers = with maintainers; [ erictapen ];
     license = licenses.asl20;
   };
 }

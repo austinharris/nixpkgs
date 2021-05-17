@@ -6,22 +6,22 @@
 
 stdenv.mkDerivation rec {
   pname = "bpftrace";
-  version = "0.11.4";
+  version = "0.12.0";
 
   src = fetchFromGitHub {
     owner  = "iovisor";
     repo   = "bpftrace";
-    rev    = "refs/tags/v${version}";
-    sha256 = "0y4qgm2cpccrsm20rnh92hqplddqsc5q5zhw9nqn2igm3h9i0z7h";
+    rev    = "v${version}";
+    sha256 = "0njbixkrpdl9gjnkzg0ybmqsva0ydfda5vms66v8ij7xida2qy07";
   };
 
   buildInputs = with llvmPackages;
-    [ llvm clang-unwrapped
+    [ llvm libclang
       kernel elfutils libelf bcc
       libbpf libbfd libopcodes
     ];
 
-  nativeBuildInputs = [ cmake pkg-config flex bison ]
+  nativeBuildInputs = [ cmake pkg-config flex bison llvmPackages.llvm.dev ]
     # libelf is incompatible with elfutils-libelf
     ++ lib.filter (x: x != libelf) kernel.moduleBuildDependencies;
 

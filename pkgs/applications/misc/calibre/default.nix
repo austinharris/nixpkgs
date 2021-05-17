@@ -1,5 +1,4 @@
 { lib
-, stdenv
 , mkDerivation
 , fetchurl
 , poppler_utils
@@ -26,11 +25,11 @@
 
 mkDerivation rec {
   pname = "calibre";
-  version = "5.11.0";
+  version = "5.17.0";
 
   src = fetchurl {
     url = "https://download.calibre-ebook.com/${version}/${pname}-${version}.tar.xz";
-    sha256 = "sha256-PI+KIMnslhoagv9U6Mcmo9Onfu8clVqASNlDir8JzUw=";
+    hash = "sha256-rdiBL3Y3q/0wFfWGE4jGkWakgV8hA9HjDcKXso6tVrs=";
   };
 
   patches = [
@@ -42,18 +41,11 @@ mkDerivation rec {
   ++ lib.optional (!unrarSupport) ./dont_build_unrar_plugin.patch;
 
   escaped_pyqt5_dir = builtins.replaceStrings ["/"] ["\\/"] (toString python3Packages.pyqt5);
-  platform_tag =
-    if stdenv.hostPlatform.isDarwin then
-      "WS_MACX"
-    else if stdenv.hostPlatform.isWindows then
-      "WS_WIN"
-    else
-      "WS_X11";
 
   prePatch = ''
     sed -i "s/\[tool.sip.project\]/[tool.sip.project]\nsip-include-dirs = [\"${escaped_pyqt5_dir}\/share\/sip\/PyQt5\"]/g" \
       setup/build.py
-    sed -i "s/\[tool.sip.bindings.pictureflow\]/[tool.sip.bindings.pictureflow]\ntags = [\"${platform_tag}\"]/g" \
+    sed -i "s/\[tool.sip.bindings.pictureflow\]/[tool.sip.bindings.pictureflow]\ntags = [\"${python3Packages.sip.platform_tag}\"]/g" \
       setup/build.py
 
     # Remove unneeded files and libs
@@ -61,8 +53,6 @@ mkDerivation rec {
   '';
 
   dontUseQmakeConfigure = true;
-
-  enableParallelBuilding = true;
 
   nativeBuildInputs = [ pkg-config qmake removeReferencesTo ];
 
@@ -86,6 +76,7 @@ mkDerivation rec {
     with python3Packages; [
       apsw
       beautifulsoup4
+      cchardet
       css-parser
       cssselect
       dateutil
@@ -104,7 +95,7 @@ mkDerivation rec {
       pyqtwebengine
       python
       regex
-      sip_5
+      sip
       zeroconf
       # the following are distributed with calibre, but we use upstream instead
       odfpy
@@ -123,7 +114,6 @@ mkDerivation rec {
     export FC_LIB_DIR=${fontconfig.lib}/lib
     export PODOFO_INC_DIR=${podofo.dev}/include/podofo
     export PODOFO_LIB_DIR=${podofo.lib}/lib
-    export SIP_BIN=${python3Packages.sip}/bin/sip
     export XDG_DATA_HOME=$out/share
     export XDG_UTILS_INSTALL_MODE="user"
 

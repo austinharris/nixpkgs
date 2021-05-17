@@ -1,14 +1,14 @@
-{ lib, stdenv, fetchFromGitHub, gnugrep, nix, nixFlakes }:
+{ lib, stdenv, fetchFromGitHub, gnugrep, nixFlakes }:
 
 stdenv.mkDerivation rec {
   pname = "nix-direnv";
-  version = "1.2.3";
+  version = "1.2.6";
 
   src = fetchFromGitHub {
     owner = "nix-community";
     repo = "nix-direnv";
     rev = version;
-    sha256 = "sha256-a0OyIONKtVWh9g/FZ6H0JSRuA1U48HSOX53G9z/h7t8=";
+    sha256 = "sha256-0dCIHgoyNgpxbrPDv26oLdU+npcIgpCQdpX4HzS0vN0=";
   };
 
   # Substitute instead of wrapping because the resulting file is

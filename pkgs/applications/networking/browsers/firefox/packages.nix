@@ -7,16 +7,16 @@ in
 rec {
   firefox = common rec {
     pname = "firefox";
-    ffversion = "85.0.2";
+    ffversion = "88.0.1";
     src = fetchurl {
       url = "mirror://mozilla/firefox/releases/${ffversion}/source/firefox-${ffversion}.source.tar.xz";
-      sha512 = "2m46li5ni1m4xv42h99rn2hhhv2mqy229wihmzxmgvws1rh2h11yf6x2a07akkjrsp2dmwxmmkhmf9dhakgj9i55z5qqi99azyx07df";
+      sha512 = "e2d7fc950ba49f225c83ee1d799d6318fcf16c33a3b7f40b85c49d5b7865f7e632c703e5fd227a303b56e2565d0796283ebb12d7fd1a02781dcaa45e84cea934";
     };
 
     meta = {
       description = "A web browser built from Firefox source tree";
       homepage = "http://www.mozilla.com/en-US/firefox/";
-      maintainers = with lib.maintainers; [ eelco lovesegfault ];
+      maintainers = with lib.maintainers; [ eelco lovesegfault hexa ];
       platforms = lib.platforms.unix;
       badPlatforms = lib.platforms.darwin;
       broken = stdenv.buildPlatform.is32bit; # since Firefox 60, build on 32-bit platforms fails with "out of memory".
@@ -32,16 +32,16 @@ rec {
 
   firefox-esr-78 = common rec {
     pname = "firefox-esr";
-    ffversion = "78.8.0esr";
+    ffversion = "78.10.1esr";
     src = fetchurl {
       url = "mirror://mozilla/firefox/releases/${ffversion}/source/firefox-${ffversion}.source.tar.xz";
-      sha512 = "0160aa6c408c2af66d24b74cf98e1a07ab1604e7b93ffcde79201f9d68e41e896ef965f1904de52d5dd82ffedae33ac96e93b871727bf5dd5983c5af2f1f439f";
+      sha512 = "a22773d9b3f0dca253805257f358a906769d23f15115e3a8851024f701e27dee45f056f7d34ebf1fcde0a3f91ec299639c2a12556e938a232cdea9e59835fde1";
     };
 
     meta = {
       description = "A web browser built from Firefox Extended Support Release source tree";
       homepage = "http://www.mozilla.com/en-US/firefox/";
-      maintainers = with lib.maintainers; [ eelco ];
+      maintainers = with lib.maintainers; [ eelco hexa ];
       platforms = lib.platforms.unix;
       badPlatforms = lib.platforms.darwin;
       broken = stdenv.buildPlatform.is32bit; # since Firefox 60, build on 32-bit platforms fails with "out of memory".

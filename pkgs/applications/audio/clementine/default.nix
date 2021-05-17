@@ -1,5 +1,5 @@
 { lib, mkDerivation, fetchFromGitHub, fetchpatch, boost, cmake, chromaprint, gettext, gst_all_1, liblastfm
-, qtbase, qtx11extras
+, qtbase, qtx11extras, qttools
 , taglib, fftw, glew, qjson, sqlite, libgpod, libplist, usbmuxd, libmtp
 , libpulseaudio, gvfs, libcdio, libechonest, libspotify, pcre, projectm, protobuf
 , qca2, pkg-config, sparsehash, config, makeWrapper, gst_plugins }:
@@ -10,7 +10,7 @@ let
   withCD = config.clementine.cd or true;
   withCloud = config.clementine.cloud or true;
 
-  # On the update after all 1.4rc, qt5.15 will be supported.
+  # On the update after all 1.4rc, qt5.15 and protobuf 3.15 will be supported.
   version = "1.4.0rc1";
 
   src = fetchFromGitHub {
@@ -45,6 +45,7 @@ let
     qjson
     qtbase
     qtx11extras
+    qttools
     sqlite
     taglib
   ]
