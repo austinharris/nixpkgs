@@ -13,8 +13,8 @@ common =
   , bash, coreutils, gzip, gnutar
   , pkgconfig, boehmgc, perlPackages, libsodium, brotli, boost, editline, nlohmann_json
   , autoreconfHook, autoconf-archive, bison, flex
-  , jq, libarchive
-  , lowdown, mdbook
+  , jq, libarchive, libcpuid
+  , lowdown_0_8, mdbook
   # Used by tests
   , gmock
   , busybox-sandbox-shell
@@ -45,7 +45,7 @@ common =
           [ autoreconfHook
             autoconf-archive
             bison flex
-            lowdown mdbook
+            lowdown_0_8 mdbook
             jq
            ];
 
@@ -54,7 +54,8 @@ common =
           brotli boost editline
         ]
         ++ lib.optional (stdenv.isLinux || stdenv.isDarwin) libsodium
-        ++ lib.optionals is24 [ libarchive gmock ]
+        ++ lib.optionals is24 [ libarchive gmock lowdown_0_8 ]
+        ++ lib.optional (is24 && stdenv.isx86_64) libcpuid
         ++ lib.optional withLibseccomp libseccomp
         ++ lib.optional withAWS
             ((aws-sdk-cpp.override {
@@ -194,10 +195,10 @@ in rec {
   nix = nixStable;
 
   nixStable = callPackage common (rec {
-    name = "nix-2.3.10";
+    name = "nix-2.3.11";
     src = fetchurl {
       url = "https://nixos.org/releases/nix/${name}/${name}.tar.xz";
-      sha256 = "a8a85e55de43d017abbf13036edfb58674ca136691582f17080c1cd12787b7ab";
+      sha256 = "89a8d7995305a78b1561e6670bbf1879c791fc4904eb094bc4f180775a61c128";
     };
 
     inherit storeDir stateDir confDir boehmgc;
@@ -207,23 +208,14 @@ in rec {
 
   nixUnstable = lib.lowPrio (callPackage common rec {
     name = "nix-2.4${suffix}";
-    suffix = "pre20201201_5a6ddb3";
+    suffix = "pre20210503_6d2553a";
 
     src = fetchFromGitHub {
       owner = "NixOS";
       repo = "nix";
-      rev = "5a6ddb3de14a1684af6c793d663764d093fa7846";
-      sha256 = "0qhd3nxvqzszzsfvh89xhd239ycqb0kq2n0bzh9br78pcb60vj3g";
+      rev = "6d2553ae1496288554e871c530836428f405fd67";
+      sha256 = "sha256-YeSeyOKhBAXHlkzo4mwYr8QIjIP9AgdpJ7YdhqOO2CA=";
     };
-
-    patches = [
-      # Fix the ETag bug. PR merged. Remove when updating to >= 20210125
-      # https://github.com/NixOS/nixpkgs/pull/109309#issuecomment-768331750
-      (fetchpatch {
-        url = "https://github.com/NixOS/nix/commit/c5b42c5a42138329c6d02da0d8a53cb59c6077f4.patch";
-        sha256 = "sha256-d4RNOKMxa4NMbFgYcqWRv2ByHt8F/XUWV+6P9qHz7S4=";
-      })
-    ];
 
     inherit storeDir stateDir confDir boehmgc;
   });

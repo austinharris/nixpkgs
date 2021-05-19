@@ -1364,6 +1364,7 @@ in {
     cudatoolkit = pkgs.cudatoolkit_10_0;
     cudnn = pkgs.cudnn_cudatoolkit_10_0;
     nccl = pkgs.nccl_cudatoolkit_10;
+    cutensor = pkgs.cutensor_cudatoolkit_10;
   };
 
   curio = callPackage ../development/python-modules/curio { };
@@ -1562,7 +1563,7 @@ in {
 
   distutils_extra = callPackage ../development/python-modules/distutils_extra { };
 
-  django_2_2 = callPackage ../development/python-modules/django/2_2.nix { };
+  django_2_2 = callPackage ../development/python-modules/django/2.nix { };
 
   django-allauth = callPackage ../development/python-modules/django-allauth { };
 

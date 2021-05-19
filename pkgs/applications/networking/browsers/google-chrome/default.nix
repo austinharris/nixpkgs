@@ -3,7 +3,7 @@
 # Linked dynamic libraries.
 , glib, fontconfig, freetype, pango, cairo, libX11, libXi, atk, gconf, nss, nspr
 , libXcursor, libXext, libXfixes, libXrender, libXScrnSaver, libXcomposite, libxcb
-, alsaLib, libXdamage, libXtst, libXrandr, expat, cups
+, alsaLib, libXdamage, libXtst, libXrandr, libxshmfence, expat, cups
 , dbus, gtk2, gtk3, gdk-pixbuf, gcc-unwrapped, at-spi2-atk, at-spi2-core
 , kerberos, libdrm, mesa
 , libxkbcommon, wayland # ozone/wayland
@@ -55,7 +55,7 @@ let
   deps = [
     glib fontconfig freetype pango cairo libX11 libXi atk gconf nss nspr
     libXcursor libXext libXfixes libXrender libXScrnSaver libXcomposite libxcb
-    alsaLib libXdamage libXtst libXrandr expat cups
+    alsaLib libXdamage libXtst libXrandr libxshmfence expat cups
     dbus gdk-pixbuf gcc-unwrapped.lib
     systemd
     libexif
@@ -140,7 +140,7 @@ in stdenv.mkDerivation {
       --prefix XDG_DATA_DIRS   : "$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH" \
       --add-flags ${escapeShellArg commandLineArgs}
 
-    for elf in $out/share/google/$appname/{chrome,chrome-sandbox,nacl_helper}; do
+    for elf in $out/share/google/$appname/{chrome,chrome-sandbox,crashpad_handler,nacl_helper}; do
       patchelf --set-rpath $rpath $elf
       patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $elf
     done
